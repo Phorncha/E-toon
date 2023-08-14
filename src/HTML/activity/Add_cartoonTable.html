@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-toon</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/src/css/activity/Cartoon.css">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">E-toon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/src/HTML/activity/Activity.html">View Activity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/src/HTML/activity/Add_story.html">add Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/src/HTML/activity/Add_announce.html">add Announce</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/src/HTML/activity/Add_cartoonTable.html">add CartoonTable</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/src/HTML/activity/Add_activity.html">add Activity</a>
+                    </li>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ส่วนของตารางการ์ตูน -->
+    <div class="container mt-5">
+        <h1 class="mb-4">ตารางการ์ตูน</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>รูปภาพการ์ตูน</th>
+                    <th>ชื่อการ์ตูน</th>
+                    <th>ประเภท</th>
+                    <th>ผู้เขียน</th>
+                    <th>ปีที่เผยแพร่</th>
+                    <th>การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody id="cartoonTableBody">
+                <!-- แถวการ์ตูนที่ถูกเพิ่มจะอยู่ที่นี่ -->
+            </tbody>
+        </table>
+        <button class="btn btn-primary mt-3" id="addCartoonBtn">เพิ่มแถวใหม่</button>
+    </div>
+
+    <script>
+        // ฟังก์ชันสร้างแถวการ์ตูนใหม่
+        function createCartoonRow(imageUrl, cartoonName, category, author, year) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><img src="${imageUrl}" alt="${cartoonName}" style="max-width: 100px;"></td>
+                <td>${cartoonName}</td>
+                <td>${category}</td>
+                <td>${author}</td>
+                <td>${year}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="handleEditCartoonRow(this)">แก้ไข</button>
+                    <button class="btn btn-danger btn-sm" onclick="handleDeleteCartoonRow(this)">ลบ</button>
+                </td>
+            `;
+            return row;
+        }
+
+        // ฟังก์ชันสำหรับการเพิ่มแถวการ์ตูนใหม่
+        function handleAddCartoonClick() {
+            const imageUrl = prompt("กรอก URL รูปภาพการ์ตูน:");
+            if (imageUrl) {
+                const cartoonName = prompt("กรอกชื่อการ์ตูน:");
+                const category = prompt("กรอกประเภท:");
+                const author = prompt("กรอกผู้เขียน:");
+                const year = prompt("กรอกปีที่เผยแพร่:");
+
+                const newRow = createCartoonRow(imageUrl, cartoonName, category, author, year);
+
+                // เพิ่มแถวการ์ตูนใหม่ลงในตาราง
+                const cartoonTableBody = document.getElementById("cartoonTableBody");
+                cartoonTableBody.appendChild(newRow);
+            }
+        }
+
+        // ฟังก์ชันสำหรับการแก้ไขแถวการ์ตูน
+        function handleEditCartoonRow(button) {
+            const row = button.parentElement.parentElement;
+            const imageUrl = prompt("กรุณาแก้ไข URL รูปภาพ:", row.cells[0].querySelector("img").src);
+            if (imageUrl) {
+                const cartoonName = prompt("กรุณาแก้ไขชื่อการ์ตูน:", row.cells[1].textContent);
+                const category = prompt("กรุณาแก้ไขประเภท:", row.cells[2].textContent);
+                const author = prompt("กรุณาแก้ไขผู้เขียน:", row.cells[3].textContent);
+                const year = prompt("กรุณาแก้ไขปีที่เผยแพร่:", row.cells[4].textContent);
+
+                // แก้ไขข้อมูลในแถวการ์ตูน
+                row.cells[0].querySelector("img").src = imageUrl;
+                row.cells[0].querySelector("img").alt = cartoonName;
+                row.cells[1].textContent = cartoonName;
+                row.cells[2].textContent = category;
+                row.cells[3].textContent = author;
+                row.cells[4].textContent = year;
+            }
+        }
+
+        // ฟังก์ชันสำหรับการลบแถวการ์ตูน
+        function handleDeleteCartoonRow(button) {
+            const row = button.parentElement.parentElement;
+            const cartoonTableBody = document.getElementById("cartoonTableBody");
+            cartoonTableBody.removeChild(row);
+        }
+
+        // กำหนดการฟังเหตุการณ์สำหรับปุ่ม "เพิ่มแถวใหม่"
+        const addCartoonBtn = document.getElementById("addCartoonBtn");
+        addCartoonBtn.addEventListener("click", handleAddCartoonClick);
+    </script>
+</body>
+</html>

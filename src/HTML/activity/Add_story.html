@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-toon</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/src/css/activity/Story.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">E-toon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/src/HTML/activity/Activity.html">View Activity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/src/HTML/activity/Add_story.html">add Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/src/HTML/activity/Add_announce.html">add Announce</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/src/HTML/activity/Add_cartoonTable.html">add CartoonTable</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/src/HTML/activity/Add_activity.html">add Activity</a>
+                    </li>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
+                  
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-story">
+        <h1>เพิ่มเรื่อง</h1>
+        <form id="addStoryForm">
+            <!-- ส่วนการเพิ่มเรื่อง -->
+            <!-- กล่องอัปโหลดไฟล์ -->
+            <div class="file-upload-container">
+                <input type="file" name="fileUpload" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf" />
+                <div class="file-preview" id="filePreview"></div>
+            </div>
+            <label for="fileUpload" class="file-label btn btn-primary">เลือกไฟล์</label>
+            <button type="button" id="deleteFileButton" class="btn btn-danger">ลบไฟล์</button>
+    
+            <br />
+    
+            <!-- ชื่อเรื่อง -->
+            <label>
+                ชื่อเรื่อง:
+                <input type="text" name="topic" id="topic" />
+            </label>
+    
+            <!-- ID เรื่อง -->
+            <label>
+                ID เรื่อง:
+                <input type="text" name="episode" id="episode" />
+            </label>
+    
+            <!-- แนว -->
+            <label>
+                แนว:
+                <select name="genre" id="genre">
+                    <option value="">เลือกแนว</option>
+                    <option value="แอ็คชั่น">แอ็คชั่น</option>
+                    <option value="ดราม่า">ดราม่า</option>
+                    <option value="คอมเมดี้">คอมเมดี้</option>
+                    <!-- เพิ่มตัวเลือกแนวตามที่คุณต้องการ -->
+                </select>
+            </label>
+    
+            <!-- วันที่ลง -->
+            <label>
+                วันที่ลง:
+                <input type="date" name="uploadDate" id="uploadDate" />
+            </label>
+    
+            <!-- ปุ่มบันทึก -->
+            <button type="submit" class="btn btn-success">บันทึก</button>
+        </form>
+    
+        <!-- ส่วน JavaScript -->
+        <script>
+            const addStoryForm = document.getElementById('addStoryForm');
+            const storyFileUpload = document.getElementById('fileUpload');
+            const storyFilePreview = document.getElementById('filePreview');
+            const storyDeleteFileButton = document.getElementById('deleteFileButton');
+    
+            // เมื่อมีการเปลี่ยนแปลงในกล่องอัปโหลดไฟล์
+            storyFileUpload.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const fileReader = new FileReader();
+                    fileReader.onload = (e) => {
+                        const fileType = file.type;
+                        if (fileType.includes('image')) {
+                            storyFilePreview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 300px; margin: 10px 0;" />`;
+                        } else if (fileType.includes('pdf')) {
+                            storyFilePreview.innerHTML = `<embed src="${e.target.result}" type="application/pdf" width="300" height="200" />`;
+                        }
+                        storyDeleteFileButton.style.display = 'inline';
+                    };
+                    fileReader.readAsDataURL(file);
+                } else {
+                    storyFilePreview.innerHTML = '';
+                    storyDeleteFileButton.style.display = 'none';
+                }
+            });
+    
+            // เมื่อคลิกที่ปุ่ม "ลบไฟล์"
+            storyDeleteFileButton.addEventListener('click', () => {
+                storyFileUpload.value = '';
+                storyFilePreview.innerHTML = '';
+                storyDeleteFileButton.style.display = 'none';
+            });
+        </script>
+    </div>
+    
+    
+</body>
+</html>

@@ -1,0 +1,111 @@
+ 
+ /* nav - bar */
+ body {
+    background-color: #f8f9fa;
+}
+.navbar {
+    background-color: #de489b;
+}
+.navbar-brand {
+    color: #fff;
+}
+.navbar-nav .nav-link {
+    color: #fff;
+}
+.navbar-nav .nav-link.active {
+    font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+    color: black;
+}
+/*ส่วนของเนื้อหา*/
+.container-story {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+select,
+input[type="date"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-label {
+    width: 90px; /* ปรับขนาดความกว้างตามที่คุณต้องการ */
+    height: 35px; /* ปรับขนาดความสูงตามที่คุณต้องการ */
+    margin: 5px; /* ระยะห่างรอบปุ่ม */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    display: inline-block;
+    padding: 6px 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.file-label:hover {
+    background-color: #2980b9;
+}
+
+#filePreview {
+    max-width: 300px;
+    margin: 10px 0;
+}
+
+#deleteFileButton {
+    width: 80px; /* ปรับขนาดความกว้างตามที่คุณต้องการ */
+    height: 35px; /* ปรับขนาดความสูงตามที่คุณต้องการ */
+    margin: 6px; /* ระยะห่างรอบปุ่ม */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    display: none;
+    margin-top: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#deleteFileButton:hover {
+    background-color: #c0392b;
+}
+
+button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+.file-upload-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-width: 320px;
+    margin-bottom: 20px;
+}

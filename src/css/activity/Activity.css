@@ -1,0 +1,19 @@
+ 
+ /* nav - bar */
+ body {
+    background-color: #f8f9fa;
+}
+.navbar {
+    background-color: #de489b;
+}
+.navbar-brand {
+    color: #fff;
+}
+.navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+    color: black;
+}

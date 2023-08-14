@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+  <!-- กำหนดภาษาเป็นไทย -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-toon</title>
+
+    <!-- ลิงก์ไปยังไฟล์ CSS ของ Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/src/css/activity/Activity.css" />
+  </head>
+  <body>
+    <!-- ส่วนสคริปต์ส่วนหัวของ Bootstrap 5 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- แถบเมนูบนสุด (Navbar) -->
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">E-toon</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+            <!-- เมนูแต่ละรายการ -->
+            <li class="nav-item">
+              <a class="nav-link" href="/src/HTML/activity/Activity.html"
+                >View Activity</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/src/HTML/activity/Add_story.html"
+                >add Story</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/src/HTML/activity/Add_announce.html"
+                >add Announce</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/src/HTML/activity/Add_cartoonTable.html"
+                >add CartoonTable</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                href="/src/HTML/activity/Add_activity.html"
+                >add Activity</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ส่วนของรายการกิจกรรม -->
+    <div class="container mt-5">
+      <h1 class="mb-4">รายการกิจกรรม</h1>
+      <div class="list-group" id="activityList">
+        <!-- รายการกิจกรรมที่มีอยู่จะถูกเพิ่มที่นี่โดยใช้ JavaScript -->
+      </div>
+      <button class="btn btn-primary mt-3" id="addActivityBtn">
+        add Activity
+      </button>
+    </div>
+
+    <!-- ส่วนของสคริปต์ JavaScript -->
+    <script>
+      // ฟังก์ชันสร้างรายการกิจกรรมใหม่
+      function createActivityItem(name, startDate, endDate, description) {
+        const activityItem = document.createElement("div");
+        activityItem.classList.add("list-group-item", "list-group-item-action");
+
+        const activityContent = `
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${name}</h5>
+                    <small>${startDate} - ${endDate}</small>
+                </div>
+                <p class="mb-1">${description}</p>
+                <small>${daysLeft(startDate, endDate)} วันที่เหลือ</small>
+                <button class="btn btn-danger btn-sm mt-2" onclick="handleDeleteActivity(this)">ลบ</button>
+            `;
+        activityItem.innerHTML = activityContent;
+
+        return activityItem;
+      }
+
+      // ฟังก์ชันคำนวณจำนวนวันที่เหลือ
+      function daysLeft(startDate, endDate) {
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+        const currentTime = new Date();
+
+        // แปลงวันที่เริ่มกิจกรรมและสิ้นสุดกิจกรรมให้เป็น พ.ศ.
+        const startYear = startDateObj.getFullYear() + 543;
+        const endYear = endDateObj.getFullYear() + 543;
+        const startMonth = startDateObj.getMonth() + 1;
+        const endMonth = endDateObj.getMonth() + 1;
+        const startDay = startDateObj.getDate();
+        const endDay = endDateObj.getDate();
+
+        const startTime = new Date(`${startYear}-${startMonth}-${startDay}`);
+        const endTime = new Date(`${endYear}-${endMonth}-${endDay}`);
+        const timeDiff = endTime - startTime;
+        const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        return daysLeft;
+      }
+
+      // ฟังก์ชันจัดการเมื่อคลิกปุ่ม "เพิ่มกิจกรรมใหม่"
+      function handleAddActivityClick() {
+        const activityName = prompt("กรอกชื่อกิจกรรม:");
+        if (activityName) {
+          const activityStartDate = prompt("กรอกวันเริ่มกิจกรรม (YYYY-MM-DD):");
+          const activityEndDate = prompt("กรอกวันสิ้นสุดกิจกรรม (YYYY-MM-DD):");
+          const activityDescription = prompt("กรอกคำอธิบายกิจกรรม:");
+
+          // สร้างรายการกิจกรรมใหม่
+          const newActivityItem = createActivityItem(
+            activityName,
+            activityStartDate,
+            activityEndDate,
+            activityDescription
+          );
+
+          // เพิ่มรายการกิจกรรมใหม่ไปยังรายการ
+          const activityList = document.getElementById("activityList");
+          activityList.appendChild(newActivityItem);
+        }
+      }
+
+      // ฟังก์ชันจัดการเมื่อคลิกปุ่ม "ลบ"
+      function handleDeleteActivity(button) {
+        const activityItem = button.parentElement;
+        const activityList = document.getElementById("activityList");
+        activityList.removeChild(activityItem);
+      }
+
+      // กำหนดการฟังเหตุการณ์การคลิกปุ่ม "เพิ่มกิจกรรมใหม่"
+      const addActivityBtn = document.getElementById("addActivityBtn");
+      addActivityBtn.addEventListener("click", handleAddActivityClick);
+    </script>
+  </body>
+</html>
